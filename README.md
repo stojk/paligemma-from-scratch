@@ -41,12 +41,12 @@ My advice is the following:
 The ViT model is simpler than Gemma and could be implemented without defined submodules, as a single class, and still be understandable. Gemma, on the other hand, is more complex and is implemented as a class with submodules. PaliGemma is a combination of the two models and is implemented as a class with submodules. 
 
 ## TODOs
-- [x] Implement ViT
+- [x] Implement ViT/SigLip
     - [x] notebook
-    - [ ] python script
+    - [x] python script
 - [x] Implement Gemma
     - [x] notebook
-    - [ ] python script
+    - [x] python script
 - [ ] Implement PaliGemma
     - [ ] notebook
     - [ ] python script
