@@ -17,6 +17,7 @@ My personal goal for this project is to understand the inner workings of these m
     - [Attention Is All You Need](https://arxiv.org/abs/1706.03762)
     - [Rotary Position Embedding](https://arxiv.org/abs/2104.09864v5)
     - [Root Mean Square Layer normalization](https://arxiv.org/abs/1910.07467)
+    - [Gaussian Error Linear Units](https://arxiv.org/abs/1606.08415v5)
 
 ## Installation
 You should know the drill. Clone the repository, create a virtual environment and install the requirements.
