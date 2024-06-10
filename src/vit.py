@@ -1,6 +1,7 @@
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
+from typing import Optional
 
 # Only differences to ViT:
 #  - CLS token is not added
@@ -13,16 +14,16 @@ class ViT(nn.Module):
 
     def __init__(
         self,
-        dim,
-        n_channels,
-        n_layers,
-        n_heads,
-        image_size,
-        patch_size,
-        fc_intermediate_size,
-        norm_eps,
-        out_head=None,
-        cls_token=False,
+        dim: int,
+        n_channels: int,
+        n_layers: int,
+        n_heads: int,
+        image_size: int,
+        patch_size: int,
+        fc_intermediate_size: int,
+        norm_eps: float,
+        out_head: Optional[str] = None,
+        cls_token: bool = False,
     ):
         super(ViT, self).__init__()
         self.dim = dim
@@ -81,7 +82,7 @@ class ViT(nn.Module):
             # self.out_fc = nn.Linear(dim, 1000)
             # self.out_act = nn.Tanh()
 
-    def load_weights(self, weights, prefix=""):
+    def load_hf_weights(self, weights: dict, prefix: str = "") -> None:
         # Load the embeddings
         self.pos_enc.data = weights[f"{prefix}embeddings.position_embedding.weight"].data
         self.projection_layer.weight.data = weights[f"{prefix}embeddings.patch_embedding.weight"].data
@@ -116,7 +117,7 @@ class ViT(nn.Module):
         self.out_ln.weight.data = weights[f"{prefix}post_layernorm.weight"].data
         self.out_ln.bias.data = weights[f"{prefix}post_layernorm.bias"].data
 
-    def forward(self, x):
+    def forward(self, x: torch.Tensor) -> torch.Tensor:
         # patch encoding
         x = self.projection_layer(x)
         # reshape to shape (bsz, dim, n_patches)
