@@ -125,14 +125,15 @@ class Gemma(nn.Module):
 
     def __init__(
         self,
-        dim,
-        n_layers,
-        n_heads,
-        num_key_value_heads,
-        fc_intermediate_size,
-        vocab_size,
-        rms_norm_eps,
-        max_position_embeddings,
+        dim: int,
+        n_layers: int,
+        n_heads: int,
+        num_key_value_heads: int,
+        fc_intermediate_size: int,
+        vocab_size: int,
+        rms_norm_eps: float,
+        max_position_embeddings: int,
+        with_embedding: bool = True,
     ):
         super(Gemma, self).__init__()
         self.dim = dim
@@ -140,7 +141,11 @@ class Gemma(nn.Module):
         self.n_layers = n_layers
         self.max_position_embeddings = max_position_embeddings
 
-        self.embedding_layer = nn.Embedding(vocab_size, dim)
+        if with_embedding:
+            self.embedding_layer = nn.Embedding(vocab_size, dim)
+        else:
+            self.embedding_layer = None
+
         self.layers = nn.ModuleList(
             [
                 GemmaLayer(
@@ -161,11 +166,12 @@ class Gemma(nn.Module):
 
     def forward(self, x):
         # embedding layer
-        x = self.embedding_layer(x)
+        if self.embedding_layer is not None:
+            x = self.embedding_layer(x)
 
-        # normalize
-        normalizer = torch.tensor(self.dim**0.5, dtype=x.dtype, device=x.device)
-        x = x * normalizer
+            # normalize
+            normalizer = torch.tensor(self.dim**0.5, dtype=x.dtype, device=x.device)
+            x = x * normalizer
 
         # create attention mask
         seq_len = x.shape[1]
@@ -205,7 +211,8 @@ class Gemma(nn.Module):
 
     def load_hf_weights(self, weights):
         # embedding layer
-        self.embedding_layer.weight.data = weights['model.embed_tokens.weight']
+        if self.embedding_layer is not None:
+            self.embedding_layer.weight.data = weights['model.embed_tokens.weight']
 
         # decoder layers
         for i in range(0, self.n_layers):
