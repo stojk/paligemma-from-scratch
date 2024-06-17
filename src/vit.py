@@ -9,6 +9,8 @@ from typing import Optional
 
 # We also need to change the load_weights method to match the SigLip model weights' keys
 
+# The ViT model is implemented as a single torch module while still being understandable.
+# Due to its simplicity and for the learning purposes, it is not split into multiple modules (as is the case with Gemma/PaliGemma).
 
 class ViT(nn.Module):
 
