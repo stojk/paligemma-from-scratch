@@ -47,9 +47,12 @@ The ViT model is simpler than Gemma and could be implemented without defined sub
 - [x] Implement Gemma
     - [x] notebook
     - [x] python script
-- [-] Implement PaliGemma
-    - [-] notebook
-    - [ ] python script
+- [x] Implement PaliGemma
+    - [x] notebook
+    - [x] python script
+    - [x] load pre-trained weights
+- [ ] Add tests
+- [ ] Adapt to GPU
 - [ ] Optimize code
 - [ ] Finetune PaliGemma
     - [ ] notebook
