@@ -169,9 +169,9 @@ class Gemma(nn.Module):
         if self.embedding_layer is not None:
             x = self.embedding_layer(x)
 
-            # normalize
-            normalizer = torch.tensor(self.dim**0.5, dtype=x.dtype, device=x.device)
-            x = x * normalizer
+        # normalize
+        normalizer = torch.tensor(self.dim**0.5, dtype=x.dtype, device=x.device)
+        x = x * normalizer
 
         # create attention mask
         seq_len = x.shape[1]
